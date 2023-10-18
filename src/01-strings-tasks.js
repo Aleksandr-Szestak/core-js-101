@@ -162,8 +162,16 @@ function repeatString(value, count) {
  *   'I like legends', 'end' => 'I like legs',
  *   'ABABAB','BA' => 'ABAB'
  */
-function removeFirstOccurrences(/* str, value */) {
-  throw new Error('Not implemented');
+// function removeFirstOccurrences(/* str, value */) {
+//   throw new Error('Not implemented');
+// }
+function removeFirstOccurrences(str, value) {
+  const isp = str.indexOf(value);
+  let result;
+  if (isp !== -1) {
+    result = str.slice(0, isp) + str.slice(isp + value.length);
+  }
+  return result;
 }
 
 /**
@@ -177,10 +185,12 @@ function removeFirstOccurrences(/* str, value */) {
  *   '<span>' => 'span'
  *   '<a>' => 'a'
  */
-function unbracketTag(/* str */) {
-  throw new Error('Not implemented');
+// function unbracketTag(/* str */) {
+//   throw new Error('Not implemented');
+// }
+function unbracketTag(str) {
+  return str.replace(/<|>/g, '');
 }
-
 
 /**
  * Converts all characters of the specified string into the upper case
@@ -192,8 +202,11 @@ function unbracketTag(/* str */) {
  *   'Thunderstruck' => 'THUNDERSTRUCK'
  *  'abcdefghijklmnopqrstuvwxyz' => 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
  */
-function convertToUpperCase(/* str */) {
-  throw new Error('Not implemented');
+// function convertToUpperCase(/* str */) {
+//   throw new Error('Not implemented');
+// }
+function convertToUpperCase(str) {
+  return str.toUpperCase();
 }
 
 /**
@@ -211,8 +224,11 @@ function convertToUpperCase(/* str */) {
  *   ],
  *   'info@gmail.com' => ['info@gmail.com']
  */
-function extractEmails(/* str */) {
-  throw new Error('Not implemented');
+// function extractEmails(/* str */) {
+//   throw new Error('Not implemented');
+// }
+function extractEmails(str) {
+  return str.split(';');
 }
 
 /**
@@ -238,10 +254,41 @@ function extractEmails(/* str */) {
  *             '└──────────┘\n'
  *
  */
-function getRectangleString(/* width, height */) {
-  throw new Error('Not implemented');
-}
+// function getRectangleString(/* width, height */) {
+//   throw new Error('Not implemented');
+// }
+function getRectangleString(width, height) {
+  let result;
+  let w;
+  let h;
+  const borders = ['┌─┐', '│ │', '└─┘'];
+  //---------------------------------------
+  let firstRow = borders[0][0];
+  for (w = 1; w < width - 1; w += 1) {
+    firstRow += borders[0][1];
+  }
+  firstRow += borders[0][2];
+  //---------------------------------------
+  let midRow = borders[1][0];
+  for (w = 1; w < width - 1; w += 1) {
+    midRow += borders[1][1];
+  }
+  midRow += borders[1][2];
+  //---------------------------------------
+  let lastRow = borders[2][0];
+  for (w = 1; w < width - 1; w += 1) {
+    lastRow += borders[2][1];
+  }
+  lastRow += borders[2][2];
+  //---------------------------------------
+  result = `${firstRow}\n`;
 
+  for (h = 1; h < height - 1; h += 1) {
+    result += `${midRow}\n`;
+  }
+  result += `${lastRow}\n`;
+  return result;
+}
 
 /**
  * Encode specified string with ROT13 cipher
@@ -259,8 +306,24 @@ function getRectangleString(/* width, height */) {
  *    => 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm'
  *
  */
-function encodeToRot13(/* str */) {
-  throw new Error('Not implemented');
+// function encodeToRot13(/* str */) {
+//   throw new Error('Not implemented');
+// }
+function encodeToRot13(str) {
+  const alphabet1 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+  const alphabet2 = 'NOPQRSTUVWXYZABCDEFGHIJKLMnopqrstuvwxyzabcdefghijklm';
+  let result = '';
+  let search1;
+  for (let i = 0; i < str.length; i += 1) {
+    // result += alphabet2[alphabet1.indexOf(str[i])];
+    search1 = alphabet1.indexOf(str[i]);
+    if (search1 !== -1) {
+      result += alphabet2[search1];
+    } else {
+      result += str[i];
+    }
+  }
+  return result;
 }
 
 /**
@@ -276,10 +339,12 @@ function encodeToRot13(/* str */) {
  *   isString('test') => true
  *   isString(new String('test')) => true
  */
-function isString(/* value */) {
-  throw new Error('Not implemented');
+// function isString(/* value */) {
+//   throw new Error('Not implemented');
+// }
+function isString(value) {
+  return typeof (value) === 'string' || value instanceof String;
 }
-
 
 /**
  * Returns playid card id.
@@ -305,10 +370,20 @@ function isString(/* value */) {
  *   'Q♠' => 50
  *   'K♠' => 51
  */
-function getCardId(/* value */) {
-  throw new Error('Not implemented');
-}
+// function getCardId(/* value */) {
+//   throw new Error('Not implemented');
+// }
+function getCardId(value) {
+  const pCards = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+  //               0   1   2   3   4   5   6   7   8    9  10  11  12
+  const mCards = ['♣', '♦', '♥', '♠'];
+  //               0   1   2   3
 
+  const i1 = pCards.indexOf(value.length === 3 ? value.slice(0, 2) : value[0]);
+  const i2 = mCards.indexOf(value[value.length - 1]);
+
+  return i2 * 13 + i1;
+}
 
 module.exports = {
   concatenateStrings,
