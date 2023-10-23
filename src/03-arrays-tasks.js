@@ -665,10 +665,21 @@ function distinct(arr) {
  *    "Poland" => ["Lodz"]
  *   }
  */
-function group(/* array, keySelector, valueSelector */) {
-  throw new Error('Not implemented');
+// function group(/* array, keySelector, valueSelector */) {
+//   throw new Error('Not implemented');
+// }
+function group(array, keySelector, valueSelector) {
+  const keysAll = array.map(keySelector);
+  const keysUniq = keysAll.filter((item, index, arr) => arr.indexOf(item) === index);
+  const arrResult = keysUniq.reduce((mapObj, elem) => {
+    const mapCurrent = array.filter((v) => keySelector(v) === elem).map((v) => valueSelector(v));
+    mapObj[elem] = mapCurrent; // eslint-disable-line no-param-reassign
+    return mapObj;
+  },
+  {});
+  const mapResult = new Map(Object.entries(arrResult));
+  return mapResult;
 }
-
 
 /**
  * Projects each element of the specified array to a sequence
@@ -683,10 +694,21 @@ function group(/* array, keySelector, valueSelector */) {
  *   [[1, 2], [3, 4], [5, 6]], (x) => x     =>   [ 1, 2, 3, 4, 5, 6 ]
  *   ['one','two','three'], (x) => x.split('')  =>   ['o','n','e','t','w','o','t','h','r','e','e']
  */
-function selectMany(/* arr, childrenSelector */) {
-  throw new Error('Not implemented');
+// function selectMany(/* arr, childrenSelector */) {
+//   throw new Error('Not implemented');
+// }
+function selectMany(arr, childrenSelector) {
+  const resultChildren = arr.map(childrenSelector);
+  const result = resultChildren.reduce((elPos, elem) => {
+    if (Array.isArray(elem)) {
+      elPos.push(...elem);
+    } else {
+      elPos.push(elem);
+    }
+    return elPos;
+  }, []);
+  return result;
 }
-
 
 /**
  * Returns an element from the multidimensional array by the specified indexes.
@@ -700,10 +722,21 @@ function selectMany(/* arr, childrenSelector */) {
  *   ['one','two','three'], [2]       => 'three'  (arr[2])
  *   [[[ 1, 2, 3]]], [ 0, 0, 1 ]      => 2        (arr[0][0][1])
  */
-function getElementByIndexes(/* arr, indexes */) {
-  throw new Error('Not implemented');
+// function getElementByIndexes(/* arr, indexes */) {
+//   throw new Error('Not implemented');
+// }
+function getElementByIndexes(arr, indexes) {
+  let arr0;
+  let arrReturn;
+  if (indexes.length > 1) {
+    arr0 = arr[indexes[0]];
+    indexes.shift();
+    arrReturn = getElementByIndexes(arr0, indexes);
+  } else {
+    arrReturn = arr[indexes[0]];
+  }
+  return arrReturn;
 }
-
 
 /**
  * Swaps the head and tail of the specified array:
@@ -723,10 +756,15 @@ function getElementByIndexes(/* arr, indexes */) {
  *   [ 1, 2, 3, 4, 5, 6, 7, 8 ]   =>  [ 5, 6, 7, 8, 1, 2, 3, 4 ]
  *
  */
-function swapHeadAndTail(/* arr */) {
-  throw new Error('Not implemented');
+// function swapHeadAndTail(/* arr */) {
+//   throw new Error('Not implemented');
+// }
+function swapHeadAndTail(arr) {
+  const half = Math.trunc(arr.length / 2);
+  const arrRight = arr.splice(arr.length - half, half);
+  const arrLeft = arr.splice(0, half);
+  return arrRight.concat(arr, arrLeft);
 }
-
 
 module.exports = {
   findElement,
