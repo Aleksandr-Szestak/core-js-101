@@ -27,8 +27,21 @@
  *  21 => 'Fizz'
  *
  */
-function getFizzBuzz(/* num */) {
-  throw new Error('Not implemented');
+// function getFizzBuzz(/* num */) {
+//   throw new Error('Not implemented');
+// }
+function getFizzBuzz(num) {
+  let result;
+  if (num % 15 === 0) {
+    result = 'FizzBuzz';
+  } else if (num % 5 === 0) {
+    result = 'Buzz';
+  } else if (num % 3 === 0) {
+    result = 'Fizz';
+  } else {
+    result = num;
+  }
+  return result;
 }
 
 
@@ -43,10 +56,9 @@ function getFizzBuzz(/* num */) {
  *   5  => 120
  *   10 => 3628800
  */
-function getFactorial(/* n */) {
-  throw new Error('Not implemented');
+function getFactorial(n) {
+  return n === 1 ? 1 : n * getFactorial(n - 1);
 }
-
 
 /**
  * Returns the sum of integer numbers between n1 and n2 (inclusive).
@@ -60,10 +72,16 @@ function getFactorial(/* n */) {
  *   5,10  =>  45 ( = 5+6+7+8+9+10 )
  *   -1,1  =>  0  ( = -1 + 0 + 1 )
  */
-function getSumBetweenNumbers(/* n1, n2 */) {
-  throw new Error('Not implemented');
+// function getSumBetweenNumbers(/* n1, n2 */) {
+//   throw new Error('Not implemented');
+// }
+function getSumBetweenNumbers(n1, n2) {
+  let result = 0;
+  for (let i = n1; i <= n2; i += 1) {
+    result += i;
+  }
+  return result;
 }
-
 
 /**
  * Returns true, if a triangle can be built with the specified sides a, b, c
@@ -80,10 +98,13 @@ function getSumBetweenNumbers(/* n1, n2 */) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+// function isTriangle(/* a, b, c */) {
+//   throw new Error('Not implemented');
+// }
+function isTriangle(a, b, c) {
+  const arr = [a, b, c].sort((i, j) => j - i);
+  return arr[0] < arr[1] + arr[2];
 }
-
 
 /**
  * Returns true, if two specified axis-aligned rectangles overlap, otherwise false.
