@@ -480,10 +480,36 @@ function toNaryString(num, n) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/verbalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  let i;
+  let j;
+  const pathesNew = pathes.map((item) => item.split('/'));
+  let itemsMin = 1000;
+  for (i = 0; i < pathesNew.length; i += 1) {
+    if (pathesNew[i].length < itemsMin) {
+      itemsMin = pathesNew[i].length;
+    }
+  }
+  let minResult = 1000;
+  i = 1;
+  while (i < pathesNew.length) {
+    j = 0;
+    while (j < itemsMin) {
+      if (pathesNew[i][j] !== pathesNew[0][j]) {
+        break;
+      }
+      j += 1;
+    }
+    if (j < minResult) {
+      minResult = j;
+    }
+    i += 1;
+  }
+  let result = pathesNew[0].slice(0, minResult);
+  result.push('');
+  result = result.join('/');
+  return result;
 }
-
 
 /**
  * Returns the product of two specified matrixes.
@@ -503,10 +529,22 @@ function getCommonDirectoryPath(/* pathes */) {
  *                         [ 6 ]]
  *
  */
-function getMatrixProduct(/* m1, m2 */) {
-  throw new Error('Not implemented');
+// function getMatrixProduct(/* m1, m2 */) {
+//   throw new Error('Not implemented');
+// }
+function getMatrixProduct(m1, m2) {
+  const res = Array(m1.length).fill().map(() => Array(m1.length).fill(0));
+  let j;
+  let k;
+  for (let i = 0; i < m1.length; i += 1) {
+    for (j = 0; j < m1.length; j += 1) {
+      for (k = 0; k < m2.length; k += 1) {
+        res[i][j] += m1[i][k] * m2[k][j];
+      }
+    }
+  }
+  return res;
 }
-
 
 /**
  * Returns the evaluation of the specified tic-tac-toe position.
