@@ -576,10 +576,42 @@ function getMatrixProduct(m1, m2) {
  *    [    ,   ,    ]]
  *
  */
-function evaluateTicTacToePosition(/* position */) {
-  throw new Error('Not implemented');
-}
+// function evaluateTicTacToePosition(/* position */) {
+//   throw new Error('Not implemented');
+// }
+function evaluateTicTacToePosition(pos) {
+  let i;
+  let j;
+  let winGame;
+  const sumRow = [0, 0, 0];
+  const sumCol = [0, 0, 0];
 
+  for (i = 0; i < 3; i += 1) {
+    for (j = 0; j < 3; j += 1) {
+      if (pos[i][j] === '0') {
+        sumRow[i] += 1;
+        sumCol[j] += 1;
+      } else if (pos[i][j] === 'X') {
+        sumRow[i] += 10;
+        sumCol[j] += 10;
+      }
+    }
+  }
+  if (sumRow.includes(3) || sumCol.includes(3)) {
+    winGame = '0';
+  } else if (sumRow.includes(30) || sumCol.includes(30)) {
+    winGame = 'X';
+  } else if (pos[1][1] === '0') {
+    if ((pos[0][0] === '0' && pos[2][2] === '0') || (pos[2][0] === '0' && pos[0][2] === '0')) {
+      winGame = '0';
+    }
+  } else if (pos[1][1] === 'X') {
+    if ((pos[0][0] === 'X' && pos[2][2] === 'X') || (pos[2][0] === 'X' && pos[0][2] === 'X')) {
+      winGame = 'X';
+    }
+  }
+  return winGame;
+}
 
 module.exports = {
   getFizzBuzz,
